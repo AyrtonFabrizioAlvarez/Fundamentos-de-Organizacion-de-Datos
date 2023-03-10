@@ -21,7 +21,7 @@ begin
 	begin
 		E.numero:= random(101);
 		E.edad:= random(81);
-		E.dni:= random(999999)+38000000;
+		E.dni:= random(1001);
 		writeln('Ingrese el nombre del empleado');
 		readln(E.nombre);
 		write(archLogico, E);
@@ -104,8 +104,12 @@ BEGIN
 	cargarEmpleado(archLogico);
 	close(archLogico);
 	
-	menuBienvenida(opcion);
+	writeln('Ingrerse el nombre del archivo fisico');
+	readln(archFisico);
+	assign(archLogico, archFisico);
 	reset(archLogico);
+	menuBienvenida(opcion); 
+	
 	
 	if (opcion = 1) then
 		procesar1(archLogico)
