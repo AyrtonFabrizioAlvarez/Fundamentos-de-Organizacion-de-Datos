@@ -87,37 +87,55 @@ end;
 
 procedure menuBienvenida(var opcion:integer);
 begin
-	writeln('Ingrese la opcion que desea ejecutar: 1: Buscar empleado  -  2: Listar empleados  -  3: Empleados por jubilar');
+	writeln('Ingrese la opcion que desea ejecutar: 1: Crear archivo  -  2: Abrir archivo existente  -  Pulse cualquier otra tecla para salir');
+	readln(opcion);
+end;
+
+procedure menuBusqueda(var opcion:integer);
+begin
+	writeln('Ingrese la opcion que desea ejecutar: 1: Buscar empleado  -  2: Listar empleados  -  3: Empleados proximos a jubilar');
 	readln(opcion);
 end;
 
 VAR
 	archLogico: archivo;
 	archFisico:string;
-	opcion:integer;
+	opcion1, opcion2:integer;
 BEGIN
 	Randomize;
-	writeln('Ingrerse el nombre del archivo fisico');
-	readln(archFisico);
-	assign(archLogico, archFisico);
-	rewrite(archLogico);
-	cargarEmpleado(archLogico);
-	close(archLogico);
 	
-	writeln('Ingrerse el nombre del archivo fisico');
-	readln(archFisico);
-	assign(archLogico, archFisico);
-	reset(archLogico);
-	menuBienvenida(opcion); 
+	menuBienvenida(opcion1);
 	
-	
-	if (opcion = 1) then
-		procesar1(archLogico)
-	else if (opcion = 2) then
-		procesar2(archLogico)
-	else
-		procesar3(archLogico);
+	while (opcion1 = 1) or (opcion1 = 2) do
+	begin
 		
-	close(archLogico)
+		if (opcion1 = 1) then //CREAR ARCHIVO
+		begin
+			writeln('Ingrerse el nombre del archivo fisico');
+			readln(archFisico);
+			assign(archLogico, archFisico);
+			rewrite(archLogico);
+			cargarEmpleado(archLogico);
+			close(archLogico);
+		end
+		else if (opcion1 = 2) then //ABRIR ARCHIVO EXISTENTE
+		begin
+			writeln('Ingrerse el nombre del archivo fisico');
+			readln(archFisico);
+			assign(archLogico, archFisico);
+			reset(archLogico);
+			menuBusqueda(opcion2); 
+			if (opcion2 = 1) then //BUSCAR EMPELADO POR NOMBRE Y APELLIDO
+				procesar1(archLogico)
+			else if (opcion2 = 2) then //LISTAR TODOS LOS EMPLEADOS
+				procesar2(archLogico)
+			else 						//EMPLEADOS PROXIMOS A JUBILARSE
+				procesar3(archLogico); 
+				
+			close(archLogico)
+		end;
+
+		menuBienvenida(opcion1);
+	end;
 	
 END.
