@@ -1,4 +1,4 @@
-program ej3;
+program ej3modificado;
 
 type
 	empleado = record
@@ -90,13 +90,13 @@ begin
 	end;
 end;
 
-procedure menuBienvenida(var opcion:integer);
+procedure menuBienvenida(var opcion:char);
 begin
 	writeln('Ingrese la opcion que desea ejecutar: 1: Crear archivo  -  2: Abrir archivo existente  -  Pulse cualquier otra tecla para salir');
 	readln(opcion);
 end;
 
-procedure menuBusqueda(var opcion:integer);
+procedure menuBusqueda(var opcion:char);
 begin
 	writeln('Ingrese la opcion que desea ejecutar: 1: Buscar empleado  -  2: Listar empleados  -  3: Empleados proximos a jubilar');
 	readln(opcion);
@@ -105,42 +105,40 @@ end;
 VAR
 	archLogico: archivo;
 	archFisico:string;
-	opcion1, opcion2:integer;
+	opcion1, opcion2:char;
+	ejecutar:boolean;
 BEGIN
 	Randomize;
+	ejecutar:= true;
 	
-	menuBienvenida(opcion1);
-	
-	while (opcion1 = 1) or (opcion1 = 2) do
+	while (ejecutar) do
 	begin
-		
-		if (opcion1 = 1) then //CREAR ARCHIVO
-		begin
-			writeln('Ingrerse el nombre del archivo fisico');
-			readln(archFisico);
-			assign(archLogico, archFisico);
-			rewrite(archLogico);
-			cargarEmpleado(archLogico);
-			close(archLogico);
-		end
-		else if (opcion1 = 2) then //ABRIR ARCHIVO EXISTENTE
-		begin
-			writeln('Ingrerse el nombre del archivo fisico');
-			readln(archFisico);
-			assign(archLogico, archFisico);
-			reset(archLogico);
-			menuBusqueda(opcion2); 
-			if (opcion2 = 1) then //BUSCAR EMPELADO POR NOMBRE Y APELLIDO
-				procesar1(archLogico)
-			else if (opcion2 = 2) then //LISTAR TODOS LOS EMPLEADOS
-				procesar2(archLogico)
-			else 						//EMPLEADOS PROXIMOS A JUBILARSE
-				procesar3(archLogico); 
-				
-			close(archLogico)
-		end;
-
 		menuBienvenida(opcion1);
+		
+		case opcion1 of
+			'1':	begin
+				writeln('Ingrerse el nombre del archivo fisico');
+				readln(archFisico);
+				assign(archLogico, archFisico);
+				rewrite(archLogico);
+				cargarEmpleado(archLogico);
+				close(archLogico);
+				end;
+				
+			'2':	begin
+				writeln('Ingrerse el nombre del archivo fisico');
+				readln(archFisico);
+				assign(archLogico, archFisico);
+				reset(archLogico);
+				menuBusqueda(opcion2);
+				case opcion2 of 
+					'1':	procesar1(archLogico);	//BUSCAR EMPELADO POR NOMBRE Y APELLIDO	
+					'2':	procesar2(archLogico);	//LISTAR TODOS LOS EMPLEADOS	
+					'3':	procesar3(archLogico);	//EMPLEADOS PROXIMOS A JUBILARSE
+				end;
+				end;
+			else
+				ejecutar:= false;
+		end;
 	end;
-	
 END.
