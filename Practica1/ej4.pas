@@ -20,6 +20,8 @@ begin
 	writeln('2: Abrir archivo existente');
 	writeln('3: Agregar empleado/s a un archivo existente');
 	writeln('4: Modificar edad a N empleados');
+	writeln('5: Exportar a un .txt un archivo binario completo');
+	writeln('6: Exportar a un .txt los empleados de un archivo binario que no tengan dni');
 	writeln('Pulse cualquier otra tecla para salir');
 	writeln('-------------------------------------');
 	readln(opcion);
@@ -48,8 +50,9 @@ begin
 		readln(E.nombre);
 		writeln('Ingrese el numero de empleado');
 		readln(E.numero);
+		writeln('Ingrese el dni del empleado');
+		readln(E.dni);
 		E.edad:= random(81);
-		E.dni:= random(1001);
 		write(archLogico, E);
 		
 		writeln('Ingrese el apellido del empleado');
@@ -142,9 +145,10 @@ begin
 	readln(E.nombre);
 	writeln('Ingrese el numero de empleado');
 	readln(E.numero);
+	writeln('Ingrese el dni del empleado');
+	readln(E.dni);
 	existeNumEmpleado(archLogico, existe, E.numero);
 	E.edad:= random(81);
-	E.dni:= random(1001);
 	if (not existe) then
 		write(archLogico, E);
 end;
@@ -186,7 +190,36 @@ begin
 	end;
 end;
 
+procedure exportarTxt1(var archLogico:archivo ; var txt:Text);
+var
+	E:empleado;
+begin
+	while (not eof(archLogico)) do
+	begin
+		read(archLogico, E);
+		with E do
+			writeln(numero:5, apellido:5, nombre:5, edad:5, dni:5);
+		with E do
+			writeln(txt, ' ', numero, ' ', apellido, ' ', nombre, ' ', edad, ' ', dni );
+	end;
+end;
 
+procedure exportarTxt2(var archLogico:archivo ; var txt:Text);
+var
+	E:empleado;
+begin
+	while (not eof(archLogico)) do
+	begin
+		read(archLogico, E);
+		if (E.dni = 0) then
+		begin
+			with E do
+				writeln(numero:5, apellido:5, nombre:5, edad:5, dni:5);
+			with E do
+				writeln(txt, ' ', numero, ' ', apellido, ' ', nombre, ' ', edad, ' ', dni );
+		end;
+	end;
+end;
 
 VAR
 	archLogico: archivo;
@@ -194,6 +227,7 @@ VAR
 	opcion1, opcion2:char;
 	ejecutar:boolean;
 	x, y:integer;
+	txt:Text;
 BEGIN
 	Randomize;
 	ejecutar:= true;
@@ -244,6 +278,28 @@ BEGIN
 					readln(y);
 					modificarEdadNEmpleados(archLogico, y);
 					close(archLogico);
+				end;
+			'5':begin	//EXPORTAR A .TXT
+					writeln('Ingrese el nombre del archivo que desea exportar a .txt');
+					readln(archFisico);
+					assign(archLogico, archFisico);
+					assign(txt, 'todos_empleados.txt');
+					reset(archLogico);
+					rewrite(txt);
+					exportarTxt1(archLogico, txt);
+					close(archLogico);
+					close(txt);
+				end;
+			'6':begin	//EXPORTAR A UN .TXT EMPLEADOS CON DNI EN 00
+					writeln('Ingrese el nombre del archivo que desea exportar sus empelados sin dni a un .txt');
+					readln(archFisico);
+					assign(archLogico, archFisico);
+					assign(txt, 'faltaDniEmpleado.txt');
+					reset(archLogico);
+					rewrite(txt);
+					exportarTxt2(archLogico, txt);
+					close(archLogico);
+					close(txt);
 				end;
 			else
 				ejecutar:= false;
