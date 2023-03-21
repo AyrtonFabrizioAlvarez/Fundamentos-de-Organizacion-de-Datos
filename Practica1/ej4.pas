@@ -169,9 +169,11 @@ begin
 	begin
 		read(archLogico, E);
 		if (E.numero = numBuscado) then
+		begin
 			E.edad:= edad;
-		seek(archLogico, filePos(archLogico)-1);
-		write(archLogico, E);
+			seek(archLogico, filePos(archLogico)-1);
+			write(archLogico, E);
+		end;
 	end;
 end;
 
