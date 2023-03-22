@@ -50,7 +50,6 @@ begin
 			readln(txt, nombre);
 		end;
 		write(arch, C);
-		listarCelular(C);
 	end;
 end;
 
