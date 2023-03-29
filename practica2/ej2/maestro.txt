@@ -1,0 +1,8 @@
+1 alvarez
+5 4 ayrton
+2 massera
+1 5 felipe
+3 percara
+5 6 francisco
+4 gonzalez
+0 7 ivan

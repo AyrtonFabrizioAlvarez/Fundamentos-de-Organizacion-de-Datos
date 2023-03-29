@@ -1,0 +1,12 @@
+1 nombre1
+descripcion1
+10 10 1000
+2 nombre2
+descripcion2
+5 10 2000
+3 nombre3
+descripcion3
+4 10 3000
+4 nombre4
+descripcion4
+20 10 4000
