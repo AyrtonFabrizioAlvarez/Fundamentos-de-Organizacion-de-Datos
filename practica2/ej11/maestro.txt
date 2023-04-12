@@ -1,0 +1,10 @@
+nombre1
+10 10
+nombre2
+10 10
+nombre3
+10 20
+nombre4
+20 30
+nombre5
+0 10

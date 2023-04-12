@@ -1,0 +1,18 @@
+destino0
+fecha1
+1 50
+destino1
+fecha1
+1 60
+destino2
+fecha1
+1 50
+destino3
+fecha1
+1 100
+destino4
+fecha2
+1 100
+destino5
+fecha2
+1 50
