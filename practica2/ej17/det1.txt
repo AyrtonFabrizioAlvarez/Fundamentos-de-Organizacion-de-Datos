@@ -1,0 +1,11 @@
+1 1000 fecha
+1 1000 fecha
+1 1000 fecha
+2 2000 fecha
+2 2000 fecha
+2 2000 fecha
+2 2000 fecha
+2 2000 fecha
+2 2000 fecha
+4 4000 fecha
+4 4000 fecha

@@ -1,0 +1,42 @@
+1 provincia1
+1 localidad1
+100 100 100 100 100
+1 provincia1
+2 localidad2
+100 100 100 100 100
+2 provincia2
+1 localidad1
+100 100 100 100 100
+2 provincia2
+2 localidad2
+100 100 100 100 100
+3 provincia3
+1 localidad1
+100 100 100 100 100
+3 provincia3
+2 localidad2
+100 100 100 100 100
+3 provincia3
+3 localidad3
+100 100 100 100 100
+4 provincia4
+1 localidad1
+100 100 0 100 100
+5 provincia5
+1 localidad1
+100 100 100 100 100
+6 provincia6
+1 localidad1
+100 100 100 100 100
+7 provincia7
+1 localidad1
+100 100 100 100 100
+8 provincia8
+1 localidad1
+100 100 0 100 100
+9 provincia9
+1 localidad1
+100 100 100 100 100
+10 provincia10
+1 localidad1
+100 100 100 100 100

@@ -1,0 +1,20 @@
+1 nombre1
+descripcion1
+modelo1
+marca1
+50
+2 nombre2
+descripcion2
+modelo2
+marca2
+50
+3 nombre3
+descripcion3
+modelo3
+marca3
+50
+4 nombre4
+descripcion4
+modelo4
+marca4
+50
