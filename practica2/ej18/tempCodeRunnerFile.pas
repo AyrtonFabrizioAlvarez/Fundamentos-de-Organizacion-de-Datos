@@ -1,0 +1,1 @@
+totProv:= totProv + totLoc;
