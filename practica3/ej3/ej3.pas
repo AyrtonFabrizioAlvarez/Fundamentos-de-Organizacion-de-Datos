@@ -43,6 +43,9 @@ begin
     assign(arch, nombreFisico+'.bin');
     rewrite(arch);
     N.codigo:= 0;
+    N.genero:= 0;
+    N.nombre:= 'cabecera';
+    N.director:= 'cabecera';
     write(arch, N);
     leerNovela(N);
     while (N.codigo <> 0) do
@@ -57,9 +60,9 @@ procedure menuBienvenida(var opcion:String);
 begin
     writeln('--------------------');
     writeln('Ingrese la opcion deseada');
-    writeln('A: Generar archivo de novelas');
-    writeln('B: Abrir archivo existente');
-    writeln('C: exportar a .txt todas las novelas');
+    writeln('a: Generar archivo de novelas');
+    writeln('b: Abrir archivo existente');
+    writeln('c: exportar a .txt todas las novelas');
     writeln('Ingrese cualquier otra tecla para salir');
     writeln('--------------------');
     readln(opcion);
@@ -81,7 +84,6 @@ var
     nuevo, aux:novela;
     pos:integer;
 begin
-    reset(arch);
     read(arch, aux);                //CABECERA
     leerNovela(nuevo);              //NOVELA A DAR DE ALTA
     if (aux.codigo = 0) then   //SI LA CABECERA ES 0 AGREGO AL FINAL
@@ -99,20 +101,18 @@ begin
         seek(arch, 0);                  //VUELVO A LA POSION INICIAL PARA MODIFICAR LA CABECERA
         write(arch, aux);
     end;
-    close(arch);
 end;
 
 procedure modificarNovela(var arch:archivo);
 var
     N:novela;
     buscado:integer;
-    encontre:boolean;
+    modifique:boolean;
 begin
-    encontre:= false;
-    writeln('Ingrese el codigo de novela que desea eliminar');
+    modifique:= false;
+    writeln('Ingrese el codigo de novela que desea modificar');
     readln(buscado);
-    reset(arch);
-    while (not eof(arch)) and (not encontre) do
+    while (not eof(arch)) and (not modifique) do
     begin
         read(arch, N);
         if (N.codigo = buscado) then
@@ -127,10 +127,9 @@ begin
             N.precio:= random(1001);
             seek(arch, filePos(arch)-1);
             write(arch, N);
-            encontre:= true;
+            modifique:= true;
         end;
     end;
-    close(arch);
 end;
 
 procedure hacerBaja(var arch:archivo);
@@ -142,15 +141,15 @@ begin
     elimine:= false;
     writeln('Ingrese el codigo de novela que desea eliminar');
     readln(buscado);
-    reset(arch);
     while (not eof(arch)) and (not elimine) do
     begin
         read(arch, N);
         if (N.codigo = buscado) then
         begin
-            posEliminado:= filePos(arch)-1;      //POS TIENE EL INDICE DEL ELEMENTO A ELIMINAR
-            read(arch, cabecera);               //OBTENGO LA CABECERA (EL PUNTERO ESTA AL PRINCIPIO DLE ARCHIVO)
-            seek(arch, posEliminado);            //PUNTERO ESTA NUEVAMENTE EN LA POSICION A ELIMINAR
+            posEliminado:= filePos(arch)-1;     //POS TIENE EL INDICE DEL ELEMENTO A ELIMINAR
+        seek(arch, 0);                          //EL PUNTERO ESTA AL PRINCIPIO DLE ARCHIVO
+            read(arch, cabecera);               //OBTENGO LA CABECERA
+            seek(arch, posEliminado);           //PUNTERO ESTA NUEVAMENTE EN LA POSICION A ELIMINAR
             write(arch, cabecera);              //ESCRIBO LO QUE TENIA EN LA CABECERA EN LA POSICION ELIMINADA
             seek(arch, 0);
             cabecera.codigo:= posEliminado*-1;
@@ -158,12 +157,33 @@ begin
             elimine:= true;
         end;
     end;
+end;
 
+procedure exportarTxt(var arch:archivo);
+var
+    txt:text;
+    N:novela;
+    nombreFisico:String;
+begin
+    writeln('Ingrese el nombre fisico del archivo que exportar a .txt');
+    readln(nombreFisico);
+    assign(arch, nombreFisico+'.bin');
+    assign(txt, 'reporte.txt');
+    reset(arch);
+    rewrite(txt);
+    while (not eof(arch)) do
+    begin
+        read(arch, N);
+        writeln(N.codigo, ' ', N.genero, ' ', N.nombre, ' ', N.director); //PARA LISTAR LO QUE TENGO EN EL .BIN
+        writeln(txt, N.codigo, ' ', N.genero, ' ', N.nombre, ' ', N.duracion, ' ', N.director, ' ', N.precio);
+    end;
+    close(arch);
+    close(txt);
 end;
 
 VAR
     arch:Archivo;
-    opc1, opc2:String;
+    opc1, opc2, nombreFisico:String;
     ejecutar:boolean;
 BEGIN
     ejecutar:= true;
@@ -171,10 +191,12 @@ BEGIN
     begin
         menuBienvenida(opc1);
         case (opc1) of
-            'a':begin
-                    cargarArchivo(arch);
-                end;
+            'a':cargarArchivo(arch);
             'b':begin
+                    writeln('Ingrese el nombre fisico del archivo que desea abrir');
+                    readln(nombreFisico);
+                    assign(arch, nombreFisico+'.bin');
+                    reset(arch);
                     menuApertura(opc2);
                     case (opc2) of
                         '1':hacerAlta(arch);
@@ -182,12 +204,14 @@ BEGIN
                         '3':hacerBaja(arch);
                         else
                             writeln('La opcion ingresada no es una opcion posible')
+                    end;
+                    writeln('prueba');
+                    close(arch);
                 end;
-            'c':begin
-
-                end;
+            'c':exportarTxt(arch);
             else
                 ejecutar:= false;
+        end;
     end;
 
     
@@ -217,7 +241,7 @@ espacio libre. Es decir, si en el campo correspondiente al código de
 novela del registro cabecera hay un valor negativo, por ejemplo -5,
 se debe leer el registro en la posición 5, copiarlo en la posición 0
 (actualizar la lista de espacio libre) y grabar el nuevo registro en la
-posición 5. Con el valor 0 (cero) en el registro cabecera se indica
+posición 5. Con el valor 0 (cero) en el registro cabecera se indicac
 que no hay espacio libre.
 
 ii. Modificar los datos de una novela leyendo la información desde
