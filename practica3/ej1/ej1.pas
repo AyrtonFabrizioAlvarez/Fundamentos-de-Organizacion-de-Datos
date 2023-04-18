@@ -243,7 +243,7 @@ procedure hacerBaja(var arch:archivo);
 		pos:integer;
 	begin
 		leer(arch, reg);
-		while(reg.nombre <> valorAlto) do
+		while(reg.nombre <> valorAlto) and (not ok) do
 		begin
 			if (reg.nombre = buscado) then		//SI LO ENCONTRE
 			begin
