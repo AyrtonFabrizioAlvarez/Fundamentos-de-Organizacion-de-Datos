@@ -38,36 +38,8 @@ begin
     close(a);
 end;
 
-procedure hacerBaja(var arch:tArchFlores);
-var
-    buscado, posEliminado:integer;
-    elimine:boolean;
-    cabecera, F:reg_flor;
-begin
-    reset(arch);
-    elimine:= false;
-    writeln('Ingrese el codigo de Flor que desea eliminar');
-    readln(buscado);
-    while (not eof(arch)) and (not elimine) do
-    begin
-        read(arch, F);
-        if (F.codigo = buscado) then
-        begin
-            posEliminado:= filePos(arch)-1;     //POS TIENE EL INDICE DEL ELEMENTO A ELIMINAR
-            seek(arch, 0);                      //EL PUNTERO ESTA AL PRINCIPIO DLE ARCHIVO
-            read(arch, cabecera);               //OBTENGO LA CABECERA
-            seek(arch, posEliminado);           //PUNTERO ESTA NUEVAMENTE EN LA POSICION A ELIMINAR
-            write(arch, cabecera);              //ESCRIBO LO QUE TENIA EN LA CABECERA EN LA POSICION ELIMINADA
-            seek(arch, 0);
-            cabecera.codigo:= posEliminado*-1;
-            write(arch, cabecera);
-            elimine:= true;
-        end;
-    end;
-    close(arch);
-end;
 
-procedure hacerBaja2(var arch:tArchFlores ; flor:reg_flor);
+procedure hacerBaja(var arch:tArchFlores ; flor:reg_flor);
 var
     posEliminado:integer;
     elimine:boolean;
@@ -154,7 +126,7 @@ BEGIN
 
     writeln('Ingrese el codigo de flor que desea eliminar');
     readln(buscado.codigo);
-    hacerBaja2(arch, buscado);
+    hacerBaja(arch, buscado);
 
     writeln('LISTADO DESPUES DE ELIMINADO UN ELEMENTO');
     mostrarArchivosNoEliminados(arch);
