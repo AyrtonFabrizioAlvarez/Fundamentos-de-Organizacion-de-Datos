@@ -129,7 +129,7 @@ begin
             write(mae, A);
             seek(mae, fileSize(mae)-1);
             Truncate(mae);
-            seek(mae, posEliminado+1);
+            seek(mae, posEliminado-1);
         end;
     end;
     close(mae);
