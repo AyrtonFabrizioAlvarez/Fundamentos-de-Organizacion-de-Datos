@@ -1,6 +1,0 @@
-1 1000 genero1
-nombre1
-2 2000 genero2
-nombre2
-3 3000 genero3
-nombre3
