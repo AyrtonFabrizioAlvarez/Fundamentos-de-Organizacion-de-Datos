@@ -1,0 +1,15 @@
+1 1000  marca1
+2 5 desc1
+nomb1
+2 2000  marca2
+6 6 desc2
+nomb2
+3 3000  marca3
+4 8 desc3
+nomb3
+4 4000  marca4
+5 5 desc4
+nomb4
+5 5000  marca5
+1 10 desc1
+nomb5
